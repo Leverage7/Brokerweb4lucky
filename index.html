@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Meridian — Demo Trading Interface</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<div class="app">
+
+  <!-- ============================= LANDING ============================= -->
+  <section id="page-landing" class="page">
+    <nav class="nav">
+      <div class="navLeft">
+        <div class="logo"><span class="logoMark">◆</span> Meridian</div>
+      </div>
+      <div class="navLinks">
+        <a href="#features">Explore</a>
+        <a href="#markets">Markets</a>
+        <a href="#about">Company</a>
+      </div>
+      <div class="navRight">
+        <button class="btnGhost" data-goto="login">Log in</button>
+        <button class="btnPrimary" data-goto="login">Get started</button>
+      </div>
+    </nav>
+
+    <header class="hero">
+      <div class="heroEyebrow">Live trading terminal — Line 04.28</div>
+      <h1 class="heroTitle">Read the market<br />like a single line.</h1>
+      <p class="heroSub">
+        Meridian is a concept trading interface — one panel for portfolio,
+        positions, and market pulse. Built as a student project; no real
+        funds, accounts, or market data are involved.
+      </p>
+      <div class="heroActions">
+        <button class="btnPrimary lg" data-goto="login">Enter demo →</button>
+        <button class="btnGhost lg" data-goto="login">View dashboard</button>
+      </div>
+    </header>
+
+    <div class="tickerWrap">
+      <div class="tickerTrack" id="tickerTrack"></div>
+    </div>
+    <p class="tickerNote">Illustrative prices for demonstration only — not a live market feed.</p>
+
+    <section class="section" id="features">
+      <div class="sectionHead">
+        <span class="eyebrow">Interface</span>
+        <h2>Built around one instrument panel</h2>
+      </div>
+      <div class="featureGrid">
+        <div class="featureCard">
+          <div class="featureIcon">▣</div>
+          <h3>Unified dashboard</h3>
+          <p>Portfolio value, positions, and allocation in a single readable view — no tab-hopping.</p>
+        </div>
+        <div class="featureCard">
+          <div class="featureIcon">▲</div>
+          <h3>Market pulse</h3>
+          <p>A running ticker and sparkline history give shape to price movement at a glance.</p>
+        </div>
+        <div class="featureCard">
+          <div class="featureIcon">◔</div>
+          <h3>Configurable alerts</h3>
+          <p>Notification and display preferences live in one settings panel, nothing buried.</p>
+        </div>
+        <div class="featureCard">
+          <div class="featureIcon">▤</div>
+          <h3>Context, not noise</h3>
+          <p>A news rail keeps headlines next to the numbers they explain.</p>
+        </div>
+        <div class="featureCard">
+          <div class="featureIcon">◈</div>
+          <h3>Session-only data</h3>
+          <p>Nothing here is persisted or transmitted — this build is a front-end demo.</p>
+        </div>
+        <div class="featureCard">
+          <div class="featureIcon">⚡</div>
+          <h3>Fast to navigate</h3>
+          <p>Five screens, one consistent layout language, minimal chrome.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="markets">
+      <div class="sectionHead">
+        <span class="eyebrow">Sample data</span>
+        <h2>What the ticker is showing</h2>
+      </div>
+      <div class="assetTable" id="landingAssetTable"></div>
+    </section>
+
+    <footer class="footer">
+      <div class="logo small"><span class="logoMark">◆</span> Meridian</div>
+      <p class="dim small">Broker / portfolio project. Monitor your investments in real-time.</p>
+    </footer>
+  </section>
+
+  <!-- ============================== LOGIN =============================== -->
+  <section id="page-login" class="page hidden">
+    <div class="authScreen">
+      <div class="authCard">
+        <div class="logo"><span class="logoMark">◆</span> Meridian</div>
+        <h1 class="authTitle">Enter the demo</h1>
+        <p class="authSub">
+          This is a mock sign-in. Nothing you type is sent, stored, or
+          validated against a real account — submitting continues to the dashboard.
+        </p>
+        <form id="loginForm">
+          <label class="field">
+            <span>Email</span>
+            <input type="email" placeholder="you@example.com" />
+          </label>
+          <label class="field">
+            <span>Password</span>
+            <div class="pwWrap">
+              <input type="password" id="pwInput" placeholder="••••••••" />
+              <button type="button" class="pwToggle" id="pwToggle">show</button>
+            </div>
+          </label>
+          <button class="btnPrimary full" type="submit">Continue to dashboard</button>
+        </form>
+        <button class="linkBtn" data-goto="landing">← Back to landing page</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================== APP SHELL (dashboard/news/settings) ======================== -->
+  <section id="app-shell" class="shell hidden">
+    <aside class="sidebar" id="sidebar">
+      <div class="logo"><span class="logoMark">◆</span> Meridian</div>
+      <nav class="sideNav">
+        <button class="sideLink" data-page="dashboard">▣ Dashboard</button>
+        <button class="sideLink" data-page="news">▤ News</button>
+        <button class="sideLink" data-page="settings">⚙ Settings</button>
+      </nav>
+      <button class="sideLink logout" data-goto="landing">⏻ Exit demo</button>
+    </aside>
+
+    <div class="main">
+      <div class="topbar">
+        <button class="menuBtn" id="menuBtn">☰</button>
+        <span class="topbarTitle" id="topbarTitle">Dashboard</span>
+        <span class="demoTag">Demo session — no real data</span>
+      </div>
+
+      <div class="content">
+        <!-- Dashboard -->
+        <div id="page-dashboard" class="shellPage">
+          <div class="cardRow" id="statCards"></div>
+          <div class="panel chartPanel">
+            <div class="panelHead">
+              <h3>Portfolio history</h3>
+              <span class="dim small">Last 30 sessions · simulated</span>
+            </div>
+            <svg id="historyChart" viewBox="0 0 600 220" preserveAspectRatio="none"></svg>
+          </div>
+          <div class="panel">
+            <div class="panelHead">
+              <h3>Holdings</h3>
+              <span class="dim small">Simulated allocation</span>
+            </div>
+            <div class="assetTable" id="holdingsTable"></div>
+          </div>
+        </div>
+
+        <!-- News -->
+        <div id="page-news" class="shellPage hidden">
+          <p class="dim" style="margin-bottom:20px">Sample editorial content for this demo — not real market journalism.</p>
+          <div class="newsGrid" id="newsGrid"></div>
+        </div>
+
+        <!-- Settings -->
+        <div id="page-settings" class="shellPage hidden">
+          <div class="settingsGrid">
+            <div class="panel">
+              <div class="panelHead"><h3>Profile</h3><span class="dim small">Session-only, not persisted</span></div>
+              <label class="field"><span>Display name</span><input id="settingName" value="Demo User" /></label>
+              <label class="field"><span>Email</span><input id="settingEmail" value="demo.user@example.com" /></label>
+              <label class="field">
+                <span>Display currency</span>
+                <select id="settingCurrency">
+                  <option>USD</option><option>EUR</option><option>GBP</option><option>NGN</option>
+                </select>
+              </label>
+            </div>
+
+            <div class="panel">
+              <div class="panelHead"><h3>Notifications</h3></div>
+              <div class="settingRow">
+                <div><strong>Price alerts</strong><p class="dim small">Notify on large moves in your holdings</p></div>
+                <button class="toggle on" data-toggle="priceAlerts"><span class="toggleDot"></span></button>
+              </div>
+              <div class="settingRow">
+                <div><strong>Weekly news digest</strong><p class="dim small">Summary of the News tab, once a week</p></div>
+                <button class="toggle" data-toggle="newsDigest"><span class="toggleDot"></span></button>
+              </div>
+            </div>
+
+            <div class="panel">
+              <div class="panelHead"><h3>Security</h3></div>
+              <div class="settingRow">
+                <div><strong>Two-factor authentication</strong><p class="dim small">Mock toggle — no real auth is configured</p></div>
+                <button class="toggle on" data-toggle="twoFa"><span class="toggleDot"></span></button>
+              </div>
+            </div>
+
+            <div class="panel">
+              <div class="panelHead"><h3>Appearance</h3></div>
+              <div class="settingRow">
+                <div><strong>Theme</strong><p class="dim small">Visual preference for this session</p></div>
+                <div class="segControl">
+                  <button class="active" data-theme="dark">🌙 Dark</button>
+                  <button data-theme="light">☀ Light</button>
+                </div>
+              </div>
+              <div class="settingRow">
+                <div><strong>Region</strong><p class="dim small">Affects sample formatting only</p></div>
+                <div class="segControl"><button class="active">🌐 Global</button></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
